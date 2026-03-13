@@ -41,4 +41,9 @@ void printNames(const List<NamedSequence>& data)
   std::cout << "\n";
 }
 
+void processSequences(const List<NamedSequence>&)
+{
+  std::cout << "processing not implemented yet\n";
+}
+
 }
