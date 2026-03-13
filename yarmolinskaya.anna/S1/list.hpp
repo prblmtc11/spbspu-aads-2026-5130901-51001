@@ -1,6 +1,5 @@
-#ifndef LIST_HPP
 #define LIST_HPP
-
+#ifndef LIST_HPP
 #include <stdexcept>
 #include <utility>
 
@@ -9,14 +8,6 @@ namespace yarmolinskaya
   template< class T >
   class List
   {
-  private:
-    struct Node
-    {
-      T data;
-      Node* next;
-      Node* prev;
-    };
-
   public:
     class Iterator
     {
@@ -106,11 +97,6 @@ namespace yarmolinskaya
       {}
     };
 
-  private:
-    Node* head_;
-    Node* tail_;
-
-  public:
     List():
       head_(nullptr),
       tail_(nullptr)
@@ -301,6 +287,17 @@ namespace yarmolinskaya
     {
       return ConstIterator(nullptr);
     }
+
+  private:
+    struct Node
+    {
+      T data;
+      Node* next;
+      Node* prev;
+    };
+
+    Node* head_;
+    Node* tail_;
   };
 }
 
