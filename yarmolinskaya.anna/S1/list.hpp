@@ -9,12 +9,25 @@ namespace yarmolinskaya
   template< class T >
   class List
   {
+  private:
+    struct Node
+    {
+      T data;
+      Node* next;
+      Node* prev;
+    };
+
+    Node* head_;
+    Node* tail_;
+
   public:
     class Iterator
     {
       friend class List< T >;
+
     private:
       Node* node_;
+
       explicit Iterator(Node* node):
         node_(node)
       {}
@@ -56,8 +69,10 @@ namespace yarmolinskaya
     class ConstIterator
     {
       friend class List< T >;
+
     private:
       Node* node_;
+
       explicit ConstIterator(Node* node):
         node_(node)
       {}
@@ -286,17 +301,6 @@ namespace yarmolinskaya
     {
       return ConstIterator(nullptr);
     }
-
-  private:
-    struct Node
-    {
-      T data;
-      Node* next;
-      Node* prev;
-    };
-
-    Node* head_;
-    Node* tail_;
   };
 }
 
