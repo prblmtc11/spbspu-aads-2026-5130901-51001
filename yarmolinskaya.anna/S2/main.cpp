@@ -32,25 +32,26 @@ int main(int argc, char* argv[])
 
       results.push_front(evaluateExpression(line));
     }
+
+    for (auto it = results.begin(); it != results.end(); ++it)
+    {
+      std::cout << *it;
+      auto next = it;
+      ++next;
+
+      if (next != results.end())
+      {
+        std::cout << " ";
+      }
+    }
+
+    std::cout << "\n";
   }
   catch (const std::exception& e)
   {
     std::cerr << e.what() << "\n";
     return 1;
   }
-
-  for (auto it = results.begin(); it != results.end(); ++it)
-  {
-    std::cout << *it;
-    auto next = it;
-    ++next;
-    if (next != results.end())
-    {
-      std::cout << " ";
-    }
-  }
-
-  std::cout << "\n";
 
   return 0;
 }
