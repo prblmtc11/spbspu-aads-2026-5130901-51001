@@ -1,6 +1,7 @@
 #include "sequence.hpp"
 
 #include <iostream>
+#include <cstdlib>
 
 void yarmolinskaya::readSequences(List< NamedSequence >& data)
 {
@@ -9,10 +10,27 @@ void yarmolinskaya::readSequences(List< NamedSequence >& data)
   {
     List< int > nums;
     int value;
-    while (std::cin >> value)
+
+    while (true)
     {
-      nums.push_back(value);
+      if (std::cin >> value)
+      {
+        nums.push_back(value);
+      }
+      else
+      {
+        if (std::cin.eof())
+        {
+          break;
+        }
+        else
+        {
+          std::cerr << "overflow\n";
+          std::exit(1);
+        }
+      }
     }
+
     std::cin.clear();
     data.push_back(NamedSequence(name, std::move(nums)));
   }
@@ -40,31 +58,39 @@ void yarmolinskaya::processSequences(const List< NamedSequence >& data)
   {
     iters.push_back((*it).second.cbegin());
   }
+
   List< int > sums;
   bool any_active = true;
+
   while (any_active)
   {
     any_active = false;
     List< int > column;
+
     auto seq_it = data.cbegin();
     auto iter_it = iters.begin();
+
     while (seq_it != data.cend())
     {
       auto& cur = *iter_it;
       auto end = (*seq_it).second.cend();
+
       if (cur != end)
       {
         column.push_back(*cur);
         ++cur;
         any_active = true;
       }
+
       ++seq_it;
       ++iter_it;
     }
+
     if (any_active)
     {
       int sum = 0;
       bool first = true;
+
       for (auto it = column.cbegin(); it != column.cend(); ++it)
       {
         if (!first)
@@ -75,10 +101,12 @@ void yarmolinskaya::processSequences(const List< NamedSequence >& data)
         sum += *it;
         first = false;
       }
+
       std::cout << "\n";
       sums.push_back(sum);
     }
   }
+
   bool first = true;
   for (auto it = sums.cbegin(); it != sums.cend(); ++it)
   {
@@ -89,5 +117,6 @@ void yarmolinskaya::processSequences(const List< NamedSequence >& data)
     std::cout << *it;
     first = false;
   }
+
   std::cout << "\n";
 }
