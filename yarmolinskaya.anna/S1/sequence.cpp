@@ -2,36 +2,39 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <cctype>
 
 void yarmolinskaya::readSequences(List< NamedSequence >& data)
 {
   std::string name;
+
   while (std::cin >> name)
   {
     List< int > nums;
-    int value;
 
     while (true)
     {
-      if (std::cin >> value)
+      int c = std::cin.peek();
+
+      if (std::isdigit(c) || c == '-')
       {
-        nums.push_back(value);
-      }
-      else
-      {
-        if (std::cin.eof())
-        {
-          break;
-        }
-        else
+        int value;
+        std::cin >> value;
+
+        if (std::cin.fail())
         {
           std::cerr << "overflow\n";
           std::exit(1);
         }
+
+        nums.push_back(value);
+      }
+      else
+      {
+        break;
       }
     }
 
-    std::cin.clear();
     data.push_back(NamedSequence(name, std::move(nums)));
   }
 }
@@ -54,6 +57,7 @@ void yarmolinskaya::printNames(const List< NamedSequence >& data)
 void yarmolinskaya::processSequences(const List< NamedSequence >& data)
 {
   List< List< int >::ConstIterator > iters;
+
   for (auto it = data.cbegin(); it != data.cend(); ++it)
   {
     iters.push_back((*it).second.cbegin());
@@ -107,15 +111,22 @@ void yarmolinskaya::processSequences(const List< NamedSequence >& data)
     }
   }
 
-  bool first = true;
-  for (auto it = sums.cbegin(); it != sums.cend(); ++it)
+  if (sums.empty())
   {
-    if (!first)
+    std::cout << 0;
+  }
+  else
+  {
+    bool first = true;
+    for (auto it = sums.cbegin(); it != sums.cend(); ++it)
     {
-      std::cout << " ";
+      if (!first)
+      {
+        std::cout << " ";
+      }
+      std::cout << *it;
+      first = false;
     }
-    std::cout << *it;
-    first = false;
   }
 
   std::cout << "\n";
