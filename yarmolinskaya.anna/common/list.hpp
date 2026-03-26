@@ -1,8 +1,7 @@
 #ifndef LIST_HPP
 #define LIST_HPP
 
-#include <stdexcept>
-#include <utility>
+#include <cstddef>
 
 namespace yarmolinskaya
 {
@@ -14,101 +13,39 @@ namespace yarmolinskaya
     {
       T data;
       Node* next;
-      Node* prev;
-    };
 
-    Node* head_;
-    Node* tail_;
+      Node(const T& value):
+        data(value),
+        next(nullptr)
+      {}
+    };
 
   public:
     class Iterator
     {
-      friend class List< T >;
-
-    private:
-      Node* node_;
-
-      explicit Iterator(Node* node):
-        node_(node)
-      {}
-
     public:
-      Iterator():
-        node_(nullptr)
+      Iterator(Node* ptr = nullptr):
+        ptr_(ptr)
       {}
 
-      T& operator*() const
+      T& operator*()
       {
-        return node_->data;
+        return ptr_->data;
       }
 
       Iterator& operator++()
       {
-        node_ = node_->next;
+        ptr_ = ptr_->next;
         return *this;
-      }
-
-      Iterator operator++(int)
-      {
-        Iterator tmp(*this);
-        ++(*this);
-        return tmp;
-      }
-
-      bool operator==(const Iterator& other) const
-      {
-        return node_ == other.node_;
       }
 
       bool operator!=(const Iterator& other) const
       {
-        return node_ != other.node_;
+        return ptr_ != other.ptr_;
       }
-    };
-
-    class ConstIterator
-    {
-      friend class List< T >;
 
     private:
-      Node* node_;
-
-      explicit ConstIterator(Node* node):
-        node_(node)
-      {}
-
-    public:
-      ConstIterator():
-        node_(nullptr)
-      {}
-
-      const T& operator*() const
-      {
-        return node_->data;
-      }
-
-      ConstIterator& operator++()
-      {
-        node_ = node_->next;
-        return *this;
-      }
-
-      ConstIterator operator++(int)
-      {
-        ConstIterator tmp(*this);
-        ++(*this);
-        return tmp;
-      }
-
-      bool operator==(const ConstIterator& other) const
-      {
-        return node_ == other.node_;
-      }
-
-      bool operator!=(const ConstIterator& other) const
-      {
-        return node_ != other.node_;
-      }
+      Node* ptr_;
     };
 
     List():
@@ -116,54 +53,12 @@ namespace yarmolinskaya
       tail_(nullptr)
     {}
 
-    List(const List& other):
-      head_(nullptr),
-      tail_(nullptr)
-    {
-      for (auto it = other.begin(); it != other.end(); ++it)
-      {
-        push_back(*it);
-      }
-    }
-
-    List(List&& other) noexcept:
-      head_(other.head_),
-      tail_(other.tail_)
-    {
-      other.head_ = nullptr;
-      other.tail_ = nullptr;
-    }
-
-    List& operator=(const List& other)
-    {
-      if (this != &other)
-      {
-        List tmp(other);
-        std::swap(head_, tmp.head_);
-        std::swap(tail_, tmp.tail_);
-      }
-      return *this;
-    }
-
-    List& operator=(List&& other) noexcept
-    {
-      if (this != &other)
-      {
-        clear();
-        head_ = other.head_;
-        tail_ = other.tail_;
-        other.head_ = nullptr;
-        other.tail_ = nullptr;
-      }
-      return *this;
-    }
-
     ~List()
     {
       clear();
     }
 
-    bool empty() const
+    bool empty() const noexcept
     {
       return head_ == nullptr;
     }
@@ -173,92 +68,48 @@ namespace yarmolinskaya
       return head_->data;
     }
 
-    const T& front() const
-    {
-      return head_->data;
-    }
-
     T& back()
     {
       return tail_->data;
     }
 
-    const T& back() const
+    void push_front(const T& value)
     {
-      return tail_->data;
+      Node* node = new Node(value);
+      node->next = head_;
+      head_ = node;
+
+      if (!tail_)
+      {
+        tail_ = node;
+      }
     }
 
     void push_back(const T& value)
     {
-      Node* node = new Node{value, nullptr, tail_};
+      Node* node = new Node(value);
 
-      if (tail_)
+      if (!head_)
+      {
+        head_ = tail_ = node;
+      }
+      else
       {
         tail_->next = node;
-      }
-      else
-      {
-        head_ = node;
-      }
-
-      tail_ = node;
-    }
-
-    void push_front(const T& value)
-    {
-      Node* node = new Node{value, head_, nullptr};
-
-      if (head_)
-      {
-        head_->prev = node;
-      }
-      else
-      {
         tail_ = node;
       }
-
-      head_ = node;
     }
 
     void pop_front()
     {
-      if (empty())
-      {
-        throw std::runtime_error("pop_front on empty list");
-      }
+      if (!head_) return;
 
       Node* tmp = head_;
       head_ = head_->next;
 
-      if (head_)
-      {
-        head_->prev = nullptr;
-      }
-      else
+      if (!head_)
       {
         tail_ = nullptr;
-      }
-
-      delete tmp;
-    }
-
-    void pop_back()
-    {
-      if (empty())
-      {
-        throw std::runtime_error("pop_back on empty list");
-      }
-
-      Node* tmp = tail_;
-      tail_ = tail_->prev;
-
-      if (tail_)
-      {
-        tail_->next = nullptr;
-      }
-      else
-      {
-        head_ = nullptr;
       }
 
       delete tmp;
@@ -282,25 +133,9 @@ namespace yarmolinskaya
       return Iterator(nullptr);
     }
 
-    ConstIterator begin() const
-    {
-      return ConstIterator(head_);
-    }
-
-    ConstIterator end() const
-    {
-      return ConstIterator(nullptr);
-    }
-
-    ConstIterator cbegin() const
-    {
-      return ConstIterator(head_);
-    }
-
-    ConstIterator cend() const
-    {
-      return ConstIterator(nullptr);
-    }
+  private:
+    Node* head_;
+    Node* tail_;
   };
 }
 
