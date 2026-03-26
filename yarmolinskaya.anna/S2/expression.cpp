@@ -35,3 +35,73 @@ namespace
     throw std::logic_error("unknown operator");
   }
 }
+
+namespace yarmolinskaya
+{
+  long evaluateExpression(const std::string& line)
+  {
+    Stack<long> values;
+    Stack<std::string> ops;
+
+    std::string token;
+
+    for (size_t i = 0; i <= line.size(); ++i)
+    {
+      if (i == line.size() || line[i] == ' ')
+      {
+        if (token.empty())
+        {
+          continue;
+        }
+
+        if (isNumber(token))
+        {
+          values.push(std::stol(token));
+        }
+        else if (token == "(")
+        {
+          ops.push(token);
+        }
+        else if (token == ")")
+        {
+          while (!ops.empty() && ops.top() != "(")
+          {
+            long b = values.top(); values.pop();
+            long a = values.top(); values.pop();
+            values.push(apply(a, b, ops.top()));
+            ops.pop();
+          }
+          ops.pop();
+        }
+        else
+        {
+          while (!ops.empty() &&
+                 priority(ops.top()) >= priority(token))
+          {
+            long b = values.top(); values.pop();
+            long a = values.top(); values.pop();
+            values.push(apply(a, b, ops.top()));
+            ops.pop();
+          }
+          ops.push(token);
+        }
+
+        token.clear();
+      }
+      else
+      {
+        token += line[i];
+      }
+    }
+
+    while (!ops.empty())
+    {
+      long b = values.top(); values.pop();
+      long a = values.top(); values.pop();
+      values.push(apply(a, b, ops.top()));
+      ops.pop();
+    }
+
+    return values.top();
+  }
+}
