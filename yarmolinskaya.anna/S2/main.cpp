@@ -21,14 +21,22 @@ int main(int argc, char* argv[])
   List<long> results;
   std::string line;
 
-  while (std::getline(*input, line))
+  try
   {
-    if (line.empty())
+    while (std::getline(*input, line))
     {
-      continue;
-    }
+      if (line.empty())
+      {
+        continue;
+      }
 
-    results.push_front(evaluateExpression(line));
+      results.push_front(evaluateExpression(line));
+    }
+  }
+  catch (const std::exception& e)
+  {
+    std::cerr << e.what() << "\n";
+    return 1;
   }
 
   for (auto it = results.begin(); it != results.end(); ++it)
