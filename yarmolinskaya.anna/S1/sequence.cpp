@@ -30,18 +30,15 @@ void yarmolinskaya::readSequences(List< NamedSequence >& data)
 
         std::cin.clear();
 
-        // пробуем понять: это слово (новый список) или overflow
         char c = std::cin.peek();
 
         if (std::isalpha(c))
         {
-          // это имя следующего списка → откатываемся
           break;
         }
         else
         {
-          // это не буква → значит число не влезло
-          std::cerr << "overflow\n";
+          std::cerr << "overflow";
           std::exit(1);
         }
       }
