@@ -49,10 +49,7 @@ namespace yarmolinskaya
     {
       if (i == line.size() || line[i] == ' ')
       {
-        if (token.empty())
-        {
-          continue;
-        }
+        if (token.empty()) continue;
 
         if (isNumber(token))
         {
