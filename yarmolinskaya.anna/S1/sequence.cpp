@@ -1,8 +1,8 @@
 #include "sequence.hpp"
 
 #include <iostream>
+#include <limits>
 #include <cstdlib>
-#include <cctype>
 
 void yarmolinskaya::readSequences(List< NamedSequence >& data)
 {
@@ -14,24 +14,36 @@ void yarmolinskaya::readSequences(List< NamedSequence >& data)
 
     while (true)
     {
-      int c = std::cin.peek();
+      int value;
+      std::streampos pos = std::cin.tellg();
 
-      if (std::isdigit(c) || c == '-')
+      if (std::cin >> value)
       {
-        int value;
-        std::cin >> value;
-
-        if (std::cin.fail())
-        {
-          std::cerr << "overflow\n";
-          std::exit(1);
-        }
-
         nums.push_back(value);
       }
       else
       {
-        break;
+        if (std::cin.eof())
+        {
+          break;
+        }
+
+        std::cin.clear();
+
+        // пробуем понять: это слово (новый список) или overflow
+        char c = std::cin.peek();
+
+        if (std::isalpha(c))
+        {
+          // это имя следующего списка → откатываемся
+          break;
+        }
+        else
+        {
+          // это не буква → значит число не влезло
+          std::cerr << "overflow\n";
+          std::exit(1);
+        }
       }
     }
 
@@ -42,15 +54,18 @@ void yarmolinskaya::readSequences(List< NamedSequence >& data)
 void yarmolinskaya::printNames(const List< NamedSequence >& data)
 {
   bool first = true;
+
   for (auto it = data.cbegin(); it != data.cend(); ++it)
   {
     if (!first)
     {
       std::cout << " ";
     }
+
     std::cout << (*it).first;
     first = false;
   }
+
   std::cout << "\n";
 }
 
@@ -101,6 +116,7 @@ void yarmolinskaya::processSequences(const List< NamedSequence >& data)
         {
           std::cout << " ";
         }
+
         std::cout << *it;
         sum += *it;
         first = false;
@@ -118,12 +134,14 @@ void yarmolinskaya::processSequences(const List< NamedSequence >& data)
   else
   {
     bool first = true;
+
     for (auto it = sums.cbegin(); it != sums.cend(); ++it)
     {
       if (!first)
       {
         std::cout << " ";
       }
+
       std::cout << *it;
       first = false;
     }
