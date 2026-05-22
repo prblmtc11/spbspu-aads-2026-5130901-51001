@@ -23,7 +23,11 @@ void yarmolinskaya::readGraphs(
 
     Graph graph;
 
-    for (size_t i = 0; i < edgeCount; ++i)
+    for (
+      size_t i = 0;
+      i < edgeCount;
+      ++i
+    )
     {
       std::string from;
       std::string to;
@@ -32,9 +36,9 @@ void yarmolinskaya::readGraphs(
 
       if (
         !(input >>
-          from >>
-          to >>
-          weight)
+        from >>
+        to >>
+        weight)
       )
       {
         throw std::logic_error(
