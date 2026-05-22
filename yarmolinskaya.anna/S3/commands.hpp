@@ -5,37 +5,31 @@
 #include "hash_table.hpp"
 
 #include <functional>
-#include <sstream>
+#include <istream>
 #include <string>
 
 namespace yarmolinskaya
 {
-  using GraphTable =
-    HashTable<
-      std::string,
-      Graph,
-      StringHash
-    >;
+  using GraphTable = HashTable<
+    std::string,
+    Graph,
+    StringHash
+  >;
 
-  using CommandHandler =
-    std::function<
-      void(
-        std::stringstream&,
-        GraphTable&
-      )
-    >;
+  using CommandHandler = std::function<
+    void(std::istream&, GraphTable&)
+  >;
 
-  using CommandTable =
-    HashTable<
-      std::string,
-      CommandHandler,
-      StringHash
-    >;
+  using CommandTable = HashTable<
+    std::string,
+    CommandHandler,
+    StringHash
+  >;
 
   void printInvalidCommand();
 
   bool hasExtraArguments(
-    std::stringstream& ss
+    std::istream& input
   );
 
   CommandTable createCommandTable();
