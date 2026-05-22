@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <stdexcept>
 #include <string>
 
 int main(int argc, char* argv[])
@@ -39,10 +40,11 @@ int main(int argc, char* argv[])
       graphs
     );
   }
-  catch (...)
+  catch (const std::logic_error& error)
   {
-    std::cerr <<
-      "invalid input file\n";
+    std::cerr
+      << error.what()
+      << '\n';
 
     return 1;
   }
@@ -59,11 +61,11 @@ int main(int argc, char* argv[])
       continue;
     }
 
-    std::stringstream ss(line);
+    std::stringstream inputStream(line);
 
     std::string command;
 
-    ss >> command;
+    inputStream >> command;
 
     try
     {
@@ -75,11 +77,11 @@ int main(int argc, char* argv[])
       }
 
       commands.at(command)(
-        ss,
+        inputStream,
         graphs
       );
     }
-    catch (...)
+    catch (const std::logic_error&)
     {
       yarmolinskaya::printInvalidCommand();
     }
