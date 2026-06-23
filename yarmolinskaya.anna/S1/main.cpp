@@ -16,7 +16,7 @@ int main()
     if (is_overflow)
     {
       std::cerr << "overflow\n";
-      return 2;
+      return 1;
     }
     return 0;
   }
@@ -27,7 +27,7 @@ int main()
   if (is_overflow)
   {
     std::cerr << "overflow\n";
-    return 2;
+    return 1;
   }
 
   return 0;
