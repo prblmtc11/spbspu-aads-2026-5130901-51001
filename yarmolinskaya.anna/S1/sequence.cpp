@@ -3,10 +3,25 @@
 #include <iostream>
 #include <limits>
 #include <cstdlib>
+#include <stdexcept>
 
-void yarmolinskaya::readSequences(List< NamedSequence > &data, bool &is_overflow)
+namespace yarmolinskaya
+{
+  class OverflowException : public std::runtime_error
+  {
+  public:
+    List< NamedSequence > valid_data;
+    explicit OverflowException(List< NamedSequence > &&data):
+      std::runtime_error("overflow"),
+      valid_data(std::move(data))
+    {}
+  };
+}
+
+void yarmolinskaya::readSequences(List< NamedSequence > &data)
 {
   std::string name;
+  bool has_overflow = false;
 
   while (std::cin >> name)
   {
@@ -37,7 +52,7 @@ void yarmolinskaya::readSequences(List< NamedSequence > &data, bool &is_overflow
         }
         else
         {
-          is_overflow = true;
+          has_overflow = true;
           std::string trash;
           std::cin >> trash;
           break;
@@ -46,6 +61,11 @@ void yarmolinskaya::readSequences(List< NamedSequence > &data, bool &is_overflow
     }
 
     data.push_back(NamedSequence(name, std::move(nums)));
+  }
+
+  if (has_overflow)
+  {
+    throw OverflowException(std::move(data));
   }
 }
 
