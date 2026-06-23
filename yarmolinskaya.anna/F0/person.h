@@ -17,14 +17,18 @@ namespace yarmolinskaya {
   public:
     std::string m_name;
     int m_birthYear = 0;
+    std::string m_gender;
+    std::string m_maidenName;
     Vector<Relation> m_parents;
     Vector<Relation> m_children;
 
     Person() = default;
-    Person(std::string n, int year)
+    Person(std::string n, int year, std::string gender, std::string maidenName)
     {
       m_name = std::move(n);
       m_birthYear = year;
+      m_gender = std::move(gender);
+      m_maidenName = std::move(maidenName);
     }
 
     std::string getLastName() const
