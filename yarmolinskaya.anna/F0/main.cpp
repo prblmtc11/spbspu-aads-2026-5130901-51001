@@ -41,9 +41,20 @@ int main()
     } else if (command == "add" && tokens.size() >= 4) {
       std::string gender = (tokens.size() >= 5) ? tokens[4] : "female";
       std::string maiden = (tokens.size() >= 6) ? tokens[5] : "-";
-      manager.addPerson(tokens[1], tokens[2], std::stoi(tokens[3]), gender, maiden);
+      manager.addPerson(
+        tokens[1],
+        tokens[2],
+        std::stoi(tokens[3]),
+        gender,
+        maiden
+      );
     } else if (command == "child" && tokens.size() >= 5) {
-      manager.establishChild(tokens[1], tokens[2], tokens[3], std::stoi(tokens[4]));
+      manager.establishChild(
+        tokens[1],
+        tokens[2],
+        tokens[3],
+        std::stoi(tokens[4])
+      );
     } else if (command == "children" && tokens.size() >= 3) {
       int deg = (tokens.size() >= 4) ? std::stoi(tokens[3]) : 0;
       manager.printChildren(tokens[1], tokens[2], deg);
