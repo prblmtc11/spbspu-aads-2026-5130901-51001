@@ -1,51 +1,34 @@
 #include "sequence.hpp"
 
 #include <iostream>
-#include <stdexcept>
-
-namespace yarmolinskaya
-{
-  class OverflowException : public std::runtime_error
-  {
-  public:
-    List< NamedSequence > valid_data;
-  };
-}
 
 int main()
 {
   using namespace yarmolinskaya;
   List< NamedSequence > data;
+  bool is_overflow = false;
 
-  try
-  {
-    readSequences(data);
-  }
-  catch (const OverflowException &e)
-  {
-    const List< NamedSequence > &err_data = e.valid_data;
-
-    if (err_data.empty())
-    {
-      std::cout << 0 << "\n";
-    }
-    else
-    {
-      printNames(err_data);
-      processSequences(err_data);
-    }
-
-    std::cerr << "overflow\n";
-    return 1;
-  }
+  readSequences(data, is_overflow);
 
   if (data.empty())
   {
     std::cout << 0 << "\n";
+    if (is_overflow)
+    {
+      std::cerr << "overflow\n";
+      return 1;
+    }
     return 0;
   }
 
   printNames(data);
   processSequences(data);
+
+  if (is_overflow)
+  {
+    std::cerr << "overflow\n";
+    return 1;
+  }
+
   return 0;
 }
