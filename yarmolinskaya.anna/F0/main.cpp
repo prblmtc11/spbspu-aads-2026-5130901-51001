@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include "familymanager.h"
-#include "Vector.h"
+#include "vector.h"
 
 namespace {
   yarmolinskaya::Vector<std::string> splitLine(const std::string& line)
