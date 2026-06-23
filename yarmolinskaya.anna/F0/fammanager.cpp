@@ -1,11 +1,17 @@
-#include "FamilyManager.h"
+#include "familymanager.h"
 
 void yarmolinskaya::FamilyManager::makeTree(std::string treeName)
 {
   m_families.insert(treeName, NavTree());
 }
 
-void yarmolinskaya::FamilyManager::addPerson(std::string treeName, std::string name, int birthYear, std::string gender, std::string maidenName)
+void yarmolinskaya::FamilyManager::addPerson(
+  std::string treeName,
+  std::string name,
+  int birthYear,
+  std::string gender,
+  std::string maidenName
+)
 {
   NavTree* tree = m_families.find(treeName);
   if (!tree) {
@@ -17,7 +23,12 @@ void yarmolinskaya::FamilyManager::addPerson(std::string treeName, std::string n
   tree->insert(new Person(name, birthYear, gender, maidenName));
 }
 
-void yarmolinskaya::FamilyManager::establishChild(std::string treeName, std::string parentName, std::string childName, int degree)
+void yarmolinskaya::FamilyManager::establishChild(
+  std::string treeName,
+  std::string parentName,
+  std::string childName,
+  int degree
+)
 {
   NavTree* tree = m_families.find(treeName);
   if (!tree) {
@@ -37,7 +48,11 @@ void yarmolinskaya::FamilyManager::establishChild(std::string treeName, std::str
   c->m_parents.push_back({p, degree});
 }
 
-void yarmolinskaya::FamilyManager::printChildren(std::string treeName, std::string parentName, int requiredDegree)
+void yarmolinskaya::FamilyManager::printChildren(
+  std::string treeName,
+  std::string parentName,
+  int requiredDegree
+)
 {
   NavTree* tree = m_families.find(treeName);
   if (!tree) {
@@ -51,7 +66,9 @@ void yarmolinskaya::FamilyManager::printChildren(std::string treeName, std::stri
   bool found = false;
   for (size_t i = 0; i < p->m_children.size(); ++i) {
     if (requiredDegree == 0 || p->m_children[i].degree == requiredDegree) {
-      std::cout << p->m_children[i].person->m_name << " " << p->m_children[i].person->m_birthYear << " <DEGREE: " << p->m_children[i].degree << ">\n";
+      std::cout << p->m_children[i].person->m_name << " "
+        << p->m_children[i].person->m_birthYear << " <DEGREE: "
+        << p->m_children[i].degree << ">\n";
       found = true;
     }
   }
@@ -60,7 +77,11 @@ void yarmolinskaya::FamilyManager::printChildren(std::string treeName, std::stri
   }
 }
 
-void yarmolinskaya::FamilyManager::printSons(std::string treeName, std::string parentName, int requiredDegree)
+void yarmolinskaya::FamilyManager::printSons(
+  std::string treeName,
+  std::string parentName,
+  int requiredDegree
+)
 {
   NavTree* tree = m_families.find(treeName);
   if (!tree) {
@@ -76,7 +97,8 @@ void yarmolinskaya::FamilyManager::printSons(std::string treeName, std::string p
     Person* child = p->m_children[i].person;
     if (child->m_gender == "male") {
       if (requiredDegree == 0 || p->m_children[i].degree == requiredDegree) {
-        std::cout << child->m_name << " " << child->m_birthYear << " <DEGREE: " << p->m_children[i].degree << ">\n";
+        std::cout << child->m_name << " " << child->m_birthYear
+          << " <DEGREE: " << p->m_children[i].degree << ">\n";
         found = true;
       }
     }
@@ -86,7 +108,11 @@ void yarmolinskaya::FamilyManager::printSons(std::string treeName, std::string p
   }
 }
 
-void yarmolinskaya::FamilyManager::printDaughters(std::string treeName, std::string parentName, int requiredDegree)
+void yarmolinskaya::FamilyManager::printDaughters(
+  std::string treeName,
+  std::string parentName,
+  int requiredDegree
+)
 {
   NavTree* tree = m_families.find(treeName);
   if (!tree) {
@@ -102,7 +128,8 @@ void yarmolinskaya::FamilyManager::printDaughters(std::string treeName, std::str
     Person* child = p->m_children[i].person;
     if (child->m_gender == "female") {
       if (requiredDegree == 0 || p->m_children[i].degree == requiredDegree) {
-        std::cout << child->m_name << " " << child->m_birthYear << " <DEGREE: " << p->m_children[i].degree << ">\n";
+        std::cout << child->m_name << " " << child->m_birthYear
+          << " <DEGREE: " << p->m_children[i].degree << ">\n";
         found = true;
       }
     }
@@ -112,7 +139,11 @@ void yarmolinskaya::FamilyManager::printDaughters(std::string treeName, std::str
   }
 }
 
-void yarmolinskaya::FamilyManager::printGrandchildren(std::string treeName, std::string name, int requiredDegree)
+void yarmolinskaya::FamilyManager::printGrandchildren(
+  std::string treeName,
+  std::string name,
+  int requiredDegree
+)
 {
   NavTree* tree = m_families.find(treeName);
   if (!tree) {
@@ -126,10 +157,15 @@ void yarmolinskaya::FamilyManager::printGrandchildren(std::string treeName, std:
   for (size_t i = 0; i < p->m_children.size(); ++i) {
     Person* child = p->m_children[i].person;
     for (size_t j = 0; j < child->m_children.size(); ++j) {
-      int finalDegree = maxVal(p->m_children[i].degree, child->m_children[j].degree);
+      int finalDegree = maxVal(
+        p->m_children[i].degree,
+        child->m_children[j].degree
+      );
       int outputDegree = finalDegree + 1;
       if (requiredDegree == 0 || outputDegree == requiredDegree) {
-        std::cout << child->m_children[j].person->m_name << " " << child->m_children[j].person->m_birthYear << " <DEGREE: " << outputDegree << ">\n";
+        std::cout << child->m_children[j].person->m_name << " "
+          << child->m_children[j].person->m_birthYear << " <DEGREE: "
+          << outputDegree << ">\n";
         found = true;
       }
     }
@@ -139,7 +175,11 @@ void yarmolinskaya::FamilyManager::printGrandchildren(std::string treeName, std:
   }
 }
 
-void yarmolinskaya::FamilyManager::printGrandparents(std::string treeName, std::string name, int requiredDegree)
+void yarmolinskaya::FamilyManager::printGrandparents(
+  std::string treeName,
+  std::string name,
+  int requiredDegree
+)
 {
   NavTree* tree = m_families.find(treeName);
   if (!tree) {
@@ -153,9 +193,14 @@ void yarmolinskaya::FamilyManager::printGrandparents(std::string treeName, std::
   for (size_t i = 0; i < p->m_parents.size(); ++i) {
     Person* parent = p->m_parents[i].person;
     for (size_t j = 0; j < parent->m_parents.size(); ++j) {
-      int finalDegree = maxVal(p->m_parents[i].degree, parent->m_parents[j].degree);
+      int finalDegree = maxVal(
+        p->m_parents[i].degree,
+        parent->m_parents[j].degree
+      );
       if (requiredDegree == 0 || finalDegree == requiredDegree) {
-        std::cout << parent->m_parents[j].person->m_name << " " << parent->m_parents[j].person->m_birthYear << " <DEGREE: " << finalDegree << ">\n";
+        std::cout << parent->m_parents[j].person->m_name << " "
+          << parent->m_parents[j].person->m_birthYear << " <DEGREE: "
+          << finalDegree << ">\n";
         found = true;
       }
     }
@@ -165,7 +210,11 @@ void yarmolinskaya::FamilyManager::printGrandparents(std::string treeName, std::
   }
 }
 
-void yarmolinskaya::FamilyManager::printSiblings(std::string treeName, std::string name, int requiredDegree)
+void yarmolinskaya::FamilyManager::printSiblings(
+  std::string treeName,
+  std::string name,
+  int requiredDegree
+)
 {
   NavTree* tree = m_families.find(treeName);
   if (!tree) {
@@ -180,9 +229,14 @@ void yarmolinskaya::FamilyManager::printSiblings(std::string treeName, std::stri
     Person* parent = self->m_parents[i].person;
     for (size_t j = 0; j < parent->m_children.size(); ++j) {
       if (parent->m_children[j].person != self) {
-        int finalDegree = maxVal(self->m_parents[i].degree, parent->m_children[j].degree);
+        int finalDegree = maxVal(
+          self->m_parents[i].degree,
+          parent->m_children[j].degree
+        );
         if (requiredDegree == 0 || finalDegree == requiredDegree) {
-          std::cout << parent->m_children[j].person->m_name << " " << parent->m_children[j].person->m_birthYear << " <DEGREE: " << finalDegree << ">\n";
+          std::cout << parent->m_children[j].person->m_name << " "
+            << parent->m_children[j].person->m_birthYear << " <DEGREE: "
+            << finalDegree << ">\n";
           found = true;
         }
       }
@@ -196,10 +250,16 @@ void yarmolinskaya::FamilyManager::printSiblings(std::string treeName, std::stri
         Person* uncleAunt = grandparent->m_children[k].person;
         if (uncleAunt != parent) {
           for (size_t m = 0; m < uncleAunt->m_children.size(); ++m) {
-            int finalDegree = maxVal({self->m_parents[i].degree, parent->m_parents[j].degree, uncleAunt->m_children[m].degree});
+            int finalDegree = maxVal({
+              self->m_parents[i].degree,
+              parent->m_parents[j].degree,
+              uncleAunt->m_children[m].degree
+            });
             int outputDegree = finalDegree + 1;
             if (requiredDegree == 0 || outputDegree == requiredDegree) {
-              std::cout << uncleAunt->m_children[m].person->m_name << " " << uncleAunt->m_children[m].person->m_birthYear << " <DEGREE: " << outputDegree << ">\n";
+              std::cout << uncleAunt->m_children[m].person->m_name << " "
+                << uncleAunt->m_children[m].person->m_birthYear
+                << " <DEGREE: " << outputDegree << ">\n";
               found = true;
             }
           }
@@ -212,7 +272,10 @@ void yarmolinskaya::FamilyManager::printSiblings(std::string treeName, std::stri
   }
 }
 
-void yarmolinskaya::FamilyManager::printMaidenName(std::string treeName, std::string name)
+void yarmolinskaya::FamilyManager::printMaidenName(
+  std::string treeName,
+  std::string name
+)
 {
   NavTree* tree = m_families.find(treeName);
   if (!tree) {
@@ -232,7 +295,11 @@ void yarmolinskaya::FamilyManager::printMaidenName(std::string treeName, std::st
   }
 }
 
-void yarmolinskaya::FamilyManager::mergeTreesByPerson(std::string newTree, std::string t1, std::string t2)
+void yarmolinskaya::FamilyManager::mergeTreesByPerson(
+  std::string newTree,
+  std::string t1,
+  std::string t2
+)
 {
   makeTree(newTree);
   NavTree* tree1 = m_families.find(t1);
@@ -243,61 +310,56 @@ void yarmolinskaya::FamilyManager::mergeTreesByPerson(std::string newTree, std::
   Vector<Person*> allP1 = tree1->getAllPersons();
   Vector<Person*> allP2 = tree2->getAllPersons();
   for (size_t i = 0; i < allP1.size(); ++i) {
-    addPerson(newTree, allP1[i]->m_name, allP1[i]->m_birthYear, allP1[i]->m_gender, allP1[i]->m_maidenName);
+    addPerson(
+      newTree,
+      allP1[i]->m_name,
+      allP1[i]->m_birthYear,
+      allP1[i]->m_gender,
+      allP1[i]->m_maidenName
+    );
   }
   for (size_t i = 0; i < allP2.size(); ++i) {
     NavTree* targetTree = m_families.find(newTree);
     if (targetTree && targetTree->search(allP2[i]->m_name) == nullptr) {
-      addPerson(newTree, allP2[i]->m_name, allP2[i]->m_birthYear, allP2[i]->m_gender, allP2[i]->m_maidenName);
+      addPerson(
+        newTree,
+        allP2[i]->m_name,
+        allP2[i]->m_birthYear,
+        allP2[i]->m_gender,
+        allP2[i]->m_maidenName
+      );
     }
   }
+  // Код внутри цикла, продолжающий предыдущий блок
   for (size_t i = 0; i < allP1.size(); ++i) {
     Person* oldP = allP1[i];
     for (size_t j = 0; j < oldP->m_children.size(); ++j) {
-      establishChild(newTree, oldP->m_name, oldP->m_children[j].person->m_name, oldP->m_children[j].degree);
+      establishChild(
+        newTree,
+        oldP->m_name,
+        oldP->m_children[j].person->m_name,
+        oldP->m_children[j].degree
+      );
     }
   }
-  for (size_t i = 0; i < allP2.size(); ++i) {
-    Person* oldP = allP2[i];
-    for (size_t j = 0; j < oldP->m_children.size(); ++j) {
-      establishChild(newTree, oldP->m_name, oldP->m_children[j].person->m_name, oldP->m_children[j].degree);
-    }
-  }
-  std::cout << "<TREES MERGED>\n";
-}
 
-void yarmolinskaya::FamilyManager::mergeTreesByLastName(std::string newTree, std::string t1, std::string t2)
-{
-  makeTree(newTree);
-  NavTree* tree1 = m_families.find(t1);
-  NavTree* tree2 = m_families.find(t2);
-  if (!tree1 || !tree2) {
-    return;
-  }
-  Vector<Person*> allP1 = tree1->getAllPersons();
-  Vector<Person*> allP2 = tree2->getAllPersons();
-  for (size_t i = 0; i < allP1.size(); ++i) {
-    addPerson(newTree, allP1[i]->m_name, allP1[i]->m_birthYear, allP1[i]->m_gender, allP1[i]->m_maidenName);
-  }
-  for (size_t i = 0; i < allP2.size(); ++i) {
-    addPerson(newTree, allP2[i]->m_name, allP2[i]->m_birthYear, allP2[i]->m_gender, allP2[i]->m_maidenName);
-  }
-  for (size_t i = 0; i < allP1.size(); ++i) {
-    Person* oldP = allP1[i];
-    for (size_t j = 0; j < oldP->m_children.size(); ++j) {
-      establishChild(newTree, oldP->m_name, oldP->m_children[j].person->m_name, oldP->m_children[j].degree);
-    }
-  }
   for (size_t i = 0; i < allP2.size(); ++i) {
     Person* oldP = allP2[i];
     for (size_t j = 0; j < oldP->m_children.size(); ++j) {
-      establishChild(newTree, oldP->m_name, oldP->m_children[j].person->m_name, oldP->m_children[j].degree);
+      establishChild(
+        newTree,
+        oldP->m_name,
+        oldP->m_children[j].person->m_name,
+        oldP->m_children[j].degree
+      );
     }
   }
+
   for (size_t i = 0; i < allP1.size(); ++i) {
     for (size_t j = 0; j < allP2.size(); ++j) {
-      if (allP1[i]->getLastName() == allP2[j]->getLastName() && allP1[i]->m_name != allP2[j]->m_name) {
-	  establishChild(newTree, allP1[i]->m_name, allP2[j]->m_name, 1);
+      if (allP1[i]->getLastName() == allP2[j]->getLastName()
+        && allP1[i]->m_name != allP2[j]->m_name) {
+        establishChild(newTree, allP1[i]->m_name, allP2[j]->m_name, 1);
       }
     }
   }
