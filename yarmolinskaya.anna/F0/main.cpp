@@ -35,25 +35,39 @@ int main()
     if (tokens.empty()) {
       continue;
     }
-    std::string command = tokens;
+    std::string command = tokens[0];
     if (command == "make-tree" && tokens.size() >= 2) {
-      manager.makeTree(tokens);
+      manager.makeTree(tokens[1]);
     } else if (command == "add" && tokens.size() >= 4) {
-      manager.addPerson(tokens, tokens, std::stoi(tokens));
+      std::string gender = (tokens.size() >= 5) ? tokens[4] : "female";
+      std::string maiden = (tokens.size() >= 6) ? tokens[5] : "-";
+      manager.addPerson(tokens[1], tokens[2], std::stoi(tokens[3]), gender, maiden);
     } else if (command == "child" && tokens.size() >= 5) {
-      manager.establishChild(tokens, tokens, tokens, std::stoi(tokens));
+      manager.establishChild(tokens[1], tokens[2], tokens[3], std::stoi(tokens[4]));
     } else if (command == "children" && tokens.size() >= 3) {
-      manager.printChildren(tokens, tokens);
+      int deg = (tokens.size() >= 4) ? std::stoi(tokens[3]) : 0;
+      manager.printChildren(tokens[1], tokens[2], deg);
+    } else if (command == "sons" && tokens.size() >= 3) {
+      int deg = (tokens.size() >= 4) ? std::stoi(tokens[3]) : 0;
+      manager.printSons(tokens[1], tokens[2], deg);
+    } else if (command == "daughters" && tokens.size() >= 3) {
+      int deg = (tokens.size() >= 4) ? std::stoi(tokens[3]) : 0;
+      manager.printDaughters(tokens[1], tokens[2], deg);
     } else if (command == "grandchildren" && tokens.size() >= 3) {
-      manager.printGrandchildren(tokens, tokens);
+      int deg = (tokens.size() >= 4) ? std::stoi(tokens[3]) : 0;
+      manager.printGrandchildren(tokens[1], tokens[2], deg);
     } else if (command == "grandparents" && tokens.size() >= 3) {
-      manager.printGrandparents(tokens, tokens);
+      int deg = (tokens.size() >= 4) ? std::stoi(tokens[3]) : 0;
+      manager.printGrandparents(tokens[1], tokens[2], deg);
     } else if (command == "siblings" && tokens.size() >= 3) {
-      manager.printSiblings(tokens, tokens);
+      int deg = (tokens.size() >= 4) ? std::stoi(tokens[3]) : 0;
+      manager.printSiblings(tokens[1], tokens[2], deg);
+    } else if (command == "maiden-name" && tokens.size() >= 3) {
+      manager.printMaidenName(tokens[1], tokens[2]);
     } else if (command == "merge-trees-by-person" && tokens.size() >= 4) {
-      manager.mergeTreesByPerson(tokens, tokens, tokens);
+      manager.mergeTreesByPerson(tokens[1], tokens[2], tokens[3]);
     } else if (command == "merge-trees" && tokens.size() >= 4) {
-      manager.mergeTreesByLastName(tokens, tokens, tokens);
+      manager.mergeTreesByLastName(tokens[1], tokens[2], tokens[3]);
     }
   }
   return 0;
