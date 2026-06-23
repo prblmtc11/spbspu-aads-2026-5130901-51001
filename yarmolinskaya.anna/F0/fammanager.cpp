@@ -1,4 +1,4 @@
-#include "familymanager.h"
+#include "fammanager.h"
 
 void yarmolinskaya::FamilyManager::makeTree(std::string treeName)
 {
@@ -330,7 +330,6 @@ void yarmolinskaya::FamilyManager::mergeTreesByPerson(
       );
     }
   }
-  // Код внутри цикла, продолжающий предыдущий блок
   for (size_t i = 0; i < allP1.size(); ++i) {
     Person* oldP = allP1[i];
     for (size_t j = 0; j < oldP->m_children.size(); ++j) {
@@ -342,7 +341,6 @@ void yarmolinskaya::FamilyManager::mergeTreesByPerson(
       );
     }
   }
-
   for (size_t i = 0; i < allP2.size(); ++i) {
     Person* oldP = allP2[i];
     for (size_t j = 0; j < oldP->m_children.size(); ++j) {
@@ -354,7 +352,6 @@ void yarmolinskaya::FamilyManager::mergeTreesByPerson(
       );
     }
   }
-
   for (size_t i = 0; i < allP1.size(); ++i) {
     for (size_t j = 0; j < allP2.size(); ++j) {
       if (allP1[i]->getLastName() == allP2[j]->getLastName()
