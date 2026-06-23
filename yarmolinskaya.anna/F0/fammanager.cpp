@@ -139,7 +139,6 @@ void yarmolinskaya::FamilyManager::printDaughters(
     std::cout << "<NONE>\n";
   }
 }
-
 void yarmolinskaya::FamilyManager::printGrandchildren(
   std::string treeName,
   std::string name,
@@ -389,34 +388,32 @@ void yarmolinskaya::FamilyManager::mergeTreesByLastName(
     );
   }
   for (size_t i = 0; i < allP1.size(); ++i) {
-    Person* oldP = allP1(i);
+    Person* oldP = allP1[i];
     for (size_t j = 0; j < oldP->m_children.size(); ++j) {
       establishChild(
         newTree,
         oldP->m_name,
-	oldP->m_children(j).person->m_name,
-	oldP->m_children(j).degree
+        oldP->m_children[j].person->m_name,
+        oldP->m_children[j].degree
       );
     }
   }
   for (size_t i = 0; i < allP2.size(); ++i) {
-    Person* oldP = allP2(i);
+    Person* oldP = allP2[i];
     for (size_t j = 0; j < oldP->m_children.size(); ++j) {
       establishChild(
-	newTree,
-	oldP->m_name,
-	oldP->m_children(j).person->m_name,
-	oldP->m_children(j).degree
+        newTree,
+        oldP->m_name,
+        oldP->m_children[j].person->m_name,
+        oldP->m_children[j].degree
       );
     }
   }
   for (size_t i = 0; i < allP1.size(); ++i) {
     for (size_t j = 0; j < allP2.size(); ++j) {
-      if (allP1(i)->getLastName() == allP2(j)->getLastName()&& allP1(i)->m_name != allP2(j)->m_name) {
-        establishChild(
-	  newTree,
-	  allP1(i)->m_name,
-	  allP2(j)->m_name, 1);
+      if (allP1[i]->getLastName() == allP2[j]->getLastName()
+        && allP1[i]->m_name != allP2[j]->m_name) {
+        establishChild(newTree, allP1[i]->m_name, allP2[j]->m_name, 1);
       }
     }
   }

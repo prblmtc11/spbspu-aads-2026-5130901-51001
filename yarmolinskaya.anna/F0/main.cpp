@@ -58,27 +58,28 @@ int main()
     } else if (command == "children" && tokens.size() >= 3) {
       int deg = (tokens.size() >= 4) ? std::stoi(tokens[3]) : 0;
       manager.printChildren(tokens[1], tokens[2], deg);
-    } else if (command == "sons" && tokens.size() >= 3) {
-      int deg = (tokens.size() >= 4) ? std::stoi(tokens[3]) : 0;
-      manager.printSons(tokens[1], tokens[2], deg);
+    }
+    else if (command == "sons" && tokens.size() >= 3) {
+      int deg = (tokens.size() >= 4) ? std::stoi(tokens) : 0;
+      manager.printSons(tokens, tokens, deg);
     } else if (command == "daughters" && tokens.size() >= 3) {
-      int deg = (tokens.size() >= 4) ? std::stoi(tokens[3]) : 0;
-      manager.printDaughters(tokens[1], tokens[2], deg);
+      int deg = (tokens.size() >= 4) ? std::stoi(tokens) : 0;
+      manager.printDaughters(tokens, tokens, deg);
     } else if (command == "grandchildren" && tokens.size() >= 3) {
-      int deg = (tokens.size() >= 4) ? std::stoi(tokens[3]) : 0;
-      manager.printGrandchildren(tokens[1], tokens[2], deg);
+      int deg = (tokens.size() >= 4) ? std::stoi(tokens) : 0;
+      manager.printGrandchildren(tokens, tokens, deg);
     } else if (command == "grandparents" && tokens.size() >= 3) {
-      int deg = (tokens.size() >= 4) ? std::stoi(tokens[3]) : 0;
-      manager.printGrandparents(tokens[1], tokens[2], deg);
+      int deg = (tokens.size() >= 4) ? std::stoi(tokens) : 0;
+      manager.printGrandparents(tokens, tokens, deg);
     } else if (command == "siblings" && tokens.size() >= 3) {
-      int deg = (tokens.size() >= 4) ? std::stoi(tokens[3]) : 0;
-      manager.printSiblings(tokens[1], tokens[2], deg);
+      int deg = (tokens.size() >= 4) ? std::stoi(tokens) : 0;
+      manager.printSiblings(tokens, tokens, deg);
     } else if (command == "maiden-name" && tokens.size() >= 3) {
-      manager.printMaidenName(tokens[1], tokens[2]);
+      manager.printMaidenName(tokens, tokens);
     } else if (command == "merge-trees-by-person" && tokens.size() >= 4) {
-      manager.mergeTreesByPerson(tokens[1], tokens[2], tokens[3]);
+      manager.mergeTreesByPerson(tokens, tokens, tokens);
     } else if (command == "merge-trees" && tokens.size() >= 4) {
-      manager.mergeTreesByLastName(tokens[1], tokens[2], tokens[3]);
+      manager.mergeTreesByLastName(tokens, tokens, tokens);
     }
   }
   return 0;
