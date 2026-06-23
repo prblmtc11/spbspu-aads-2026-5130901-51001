@@ -3,9 +3,8 @@
 #include <iostream>
 #include <limits>
 #include <cstdlib>
-#include <stdexcept>
 
-void yarmolinskaya::readSequences(List< NamedSequence > &data)
+void yarmolinskaya::readSequences(List< NamedSequence > &data, bool &is_overflow)
 {
   std::string name;
 
@@ -16,7 +15,6 @@ void yarmolinskaya::readSequences(List< NamedSequence > &data)
     while (true)
     {
       int value = 0;
-      std::streampos pos = std::cin.tellg();
 
       if (std::cin >> value)
       {
@@ -39,7 +37,10 @@ void yarmolinskaya::readSequences(List< NamedSequence > &data)
         }
         else
         {
-          throw std::runtime_error("overflow");
+          is_overflow = true;
+          std::string trash;
+          std::cin >> trash;
+          break;
         }
       }
     }

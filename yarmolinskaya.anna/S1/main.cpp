@@ -1,7 +1,6 @@
 #include "sequence.hpp"
 
 #include <iostream>
-#include <stdexcept>
 
 int main()
 {
@@ -9,14 +8,7 @@ int main()
   List< NamedSequence > data;
   bool is_overflow = false;
 
-  try
-  {
-    readSequences(data);
-  }
-  catch (const std::runtime_error &e)
-  {
-    is_overflow = true;
-  }
+  readSequences(data, is_overflow);
 
   if (data.empty())
   {
