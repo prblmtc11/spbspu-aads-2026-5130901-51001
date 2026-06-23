@@ -4,7 +4,7 @@
 #include <limits>
 #include <cstdlib>
 
-void yarmolinskaya::readSequences(List< NamedSequence >& data)
+void yarmolinskaya::readSequences(List< NamedSequence > &data, bool &is_overflow)
 {
   std::string name;
 
@@ -14,8 +14,7 @@ void yarmolinskaya::readSequences(List< NamedSequence >& data)
 
     while (true)
     {
-      int value;
-      std::streampos pos = std::cin.tellg();
+      int value = 0;
 
       if (std::cin >> value)
       {
@@ -38,8 +37,10 @@ void yarmolinskaya::readSequences(List< NamedSequence >& data)
         }
         else
         {
-          std::cerr << "overflow";
-          std::exit(1);
+          is_overflow = true;
+          std::string trash;
+          std::cin >> trash;
+          break;
         }
       }
     }
@@ -48,7 +49,7 @@ void yarmolinskaya::readSequences(List< NamedSequence >& data)
   }
 }
 
-void yarmolinskaya::printNames(const List< NamedSequence >& data)
+void yarmolinskaya::printNames(const List< NamedSequence > &data)
 {
   bool first = true;
 
@@ -66,7 +67,7 @@ void yarmolinskaya::printNames(const List< NamedSequence >& data)
   std::cout << "\n";
 }
 
-void yarmolinskaya::processSequences(const List< NamedSequence >& data)
+void yarmolinskaya::processSequences(const List< NamedSequence > &data)
 {
   List< List< int >::ConstIterator > iters;
 
@@ -88,7 +89,7 @@ void yarmolinskaya::processSequences(const List< NamedSequence >& data)
 
     while (seq_it != data.cend())
     {
-      auto& cur = *iter_it;
+      auto &cur = *iter_it;
       auto end = (*seq_it).second.cend();
 
       if (cur != end)
