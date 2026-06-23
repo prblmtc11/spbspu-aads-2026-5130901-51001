@@ -3,6 +3,7 @@
 #include <iostream>
 #include <limits>
 #include <cstdlib>
+#include <stdexcept>
 
 void yarmolinskaya::readSequences(List< NamedSequence > &data)
 {
@@ -38,8 +39,7 @@ void yarmolinskaya::readSequences(List< NamedSequence > &data)
         }
         else
         {
-          std::cerr << "overflow\n";
-          std::exit(2);
+          throw std::runtime_error("overflow");
         }
       }
     }
