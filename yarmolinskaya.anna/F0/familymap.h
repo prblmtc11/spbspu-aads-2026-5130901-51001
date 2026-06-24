@@ -1,7 +1,6 @@
 #ifndef YARMOLINSKAYA_FAMILY_MAP_H
 #define YARMOLINSKAYA_FAMILY_MAP_H
 
-#pragma once
 #include <string>
 #include "NavTree.h"
 

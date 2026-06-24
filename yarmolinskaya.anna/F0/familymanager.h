@@ -1,7 +1,6 @@
 #ifndef YARMOLINSKAYA_FAMILY_MANAGER_H
 #define YARMOLINSKAYA_FAMILY_MANAGER_H
 
-#pragma once
 #include <iostream>
 #include <string>
 #include "familymap.h"
@@ -14,7 +13,12 @@ namespace yarmolinskaya {
     ~FamilyManager() = default;
 
     void makeTree(std::string treeName);
-    void addPerson(std::string treeName, std::string name, int birthYear, std::string gender, std::string maidenName);
+    void addPerson(
+      std::string treeName,
+      std::string name,
+      int birthYear,
+      std::string gender,
+      std::string maidenName);
     void establishChild(std::string treeName, std::string parentName, std::string childName, int degree);
     void printChildren(std::string treeName, std::string parentName, int requiredDegree);
     void printSons(std::string treeName, std::string parentName, int requiredDegree);

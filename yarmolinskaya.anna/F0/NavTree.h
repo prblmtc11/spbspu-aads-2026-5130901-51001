@@ -1,7 +1,6 @@
 #ifndef YARMOLINSKAYA_NAV_TREE_H
 #define YARMOLINSKAYA_NAV_TREE_H
 
-#pragma once
 #include "person.h"
 #include "vector.h"
 

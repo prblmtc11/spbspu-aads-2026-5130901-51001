@@ -1,7 +1,6 @@
 #ifndef YARMOLINSKAYA_PERSON_H
 #define YARMOLINSKAYA_PERSON_H
 
-#pragma once
 #include <string>
 #include "vector.h"
 

@@ -1,7 +1,6 @@
 #ifndef YARMOLINSKAYA_VECTOR_H
 #define YARMOLINSKAYA_VECTOR_H
 
-#pragma once
 #include <cstddef>
 #include <utility>
 
